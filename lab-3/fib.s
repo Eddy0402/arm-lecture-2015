@@ -40,4 +40,31 @@ fibonacci:
 	pop {r3, r4, r5, pc}		@ EPILOG
 
 	.size fibonacci, .-fibonacci
+	
+	.global fib
+	.type fib, function
+fib:
+	push {r3, r4, r5, lr}
+
+	cmp  r0, #0
+	ble .L6	
+	sub r0, #1
+
+	mov r3 ,#0
+    mov r4, #1
+.L5:
+	add r5, r3, r4
+	mov r3, r4
+	mov r4, r5
+	
+	subs r0, #1
+	bne .L5
+
+	mov r0, r5
+	pop {r3, r4, r5, pc}
+.L6:
+	mov r0, #0
+	pop {r3, r4, r5, pc}
+	
+	.size fib, .-fib
 	.end

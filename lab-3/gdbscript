@@ -1,0 +1,56 @@
+target remote :1234
+display/x    $r3
+display/x    $r4
+display/x    $r5
+display/x    $lr
+display/x    $pc
+
+echo Use change_func to change function to run\n
+echo step_ to watch per instruction
+
+define change_func
+	b main
+	b fib
+	set can-use-hw-watchpoints 0
+	c
+	n
+	n
+	n
+	print fib_func
+	set fib_func=(int(*)(int))(fib+1)
+	c
+	c
+end
+
+define step_
+	b main
+	c
+	disassemble
+	while 1
+		si	
+	end
+end
+
+define program_status
+	set logging redirect on
+	set logging file /tmp/gdb_status
+	set logging on
+	
+	info program
+	
+	set logging off
+
+	shell sed -i 's/"/\\"/g' /tmp/gdb_status
+	shell echo set \$gdb_status=\"$(cat /tmp/gdb_status)\" >/tmp/gdb_status.gdb
+	source /tmp/gdb_status.gdb
+	
+	shell /bin/rm -f /tmp/gdb_status
+	
+#	Not	working. Cannot allocate space for string while not running program.
+#	if strcmp($gdb_status,"The program being debugged is not being run.") == 0
+#		print "Go restart\n"
+#	end
+	print $gdb_status
+	
+	shell /bin/rm -f /tmp/gdb_status.gdb
+end
