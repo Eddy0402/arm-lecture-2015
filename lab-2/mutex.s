@@ -10,12 +10,13 @@
 lock_mutex:
     push { r3, r4, lr }
 	mov r4, locked
-	.TRY:
-		LDREX r3, [r0]
-		CMP r3, unlocked
-		STREXEQ r3, r4, [r0]
-		CMPEQ r3, unlocked
-		BNE .TRY
+TRY:
+	LDREX r3, [r0]
+	CMP r3, unlocked
+	STREXEQ r3, r4, [r0]
+	CMPEQ r3, #0
+	BNE TRY
+	DMB
 	pop  { r3, r4, pc }
 
 	.size lock_mutex, .-lock_mutex
@@ -24,8 +25,10 @@ lock_mutex:
 	.type unlock_mutex, function
 unlock_mutex:
 	push { r3, lr }
+	DMB
 	mov r3, unlocked
 	STR r3, [r0]
+	DSB
 	pop  { r3, pc }
 	.size unlock_mutex, .-unlock_mutex
 
