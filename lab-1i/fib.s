@@ -9,27 +9,23 @@
 	.type fibonacci, function
 
 fibonacci:
-	push {r3, r4, r5, lr}
+	subs r1, r0, #2
+    itt le
+    movle r0, #1
+    bxle lr
+	push {r4, r5, lr}
 
-	cmp  r0, #0
-	ble .L3	
-	sub r0, #1
-
-	mov r3 ,#0
-    mov r4, #1
+	mov r4 ,#1
+    mov r5, #1
 .L4:
-	add r5, r3, r4
-	mov r3, r4
+	add r0, r4, r5
 	mov r4, r5
+	mov r5, r0
 	
-	subs r0, #1
-	bne .L4
+	subs r1, #1
+	bgt .L4
 
-	mov r0, r5
-	pop {r3, r4, r5, pc}
-.L3:
-	mov r0, #0
-	pop {r3, r4, r5, pc}
+	pop {r4, r5, pc}
 	
 	.size fibonacci, .-fibonacci
 	.end
