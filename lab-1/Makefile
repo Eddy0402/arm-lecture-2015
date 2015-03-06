@@ -22,7 +22,7 @@ clean:
 
 QEMU_CMD = qemu-arm -L /usr/arm-linux-gnueabihf ./fibseq
 qemu: fibseq
-	@test=1 ; while [ $$test -le 46 ] ; do \
+	@test=0 ; while [ $$test -le 46 ] ; do \
 		yes $$test | $(call QEMU_CMD); \
 		test=`expr $$test + 1`; \
 	done
