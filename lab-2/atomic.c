@@ -18,7 +18,7 @@ unsigned int mutexlock = unlocked;
 void *doSomeThing(void *arg)
 {
 	// pthread_mutex_lock(&lock);
-	lock_mutex(&mutexlock); 
+	lock_mutex(&mutexlock);
 	unsigned long i = 0;
 	counter += 1;
 	printf("\n Job %d started\n", counter);

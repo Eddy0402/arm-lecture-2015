@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 	int result=0;
 
 	scanf("%d",&number);
-	result = fib_func(number);   
+	result = fib_func(number);
 	printf("The fibonacci sequence at %d is: %d\n", number, result);
 
 	return 0;

@@ -1,6 +1,6 @@
 AS	= arm-linux-gnueabihf-as
 LD	= arm-linux-gnueabihf-ld
-SFLAGS  = 
+SFLAGS  =
 LDFLAGS =
 
 objects	= hello.o
