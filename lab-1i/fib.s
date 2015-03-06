@@ -9,12 +9,11 @@
 	.type fibonacci, function
 
 fibonacci:
-	subs r1, r0, #2
-    itt le
-    movle r0, #1
+	subs r1, r0, #1
+    it le
     bxle lr
 
-	mov r2 ,#1
+	mov r2 ,#0
     mov r3, #1
 .L4:
 	add r0, r2, r3
