@@ -10,14 +10,15 @@
 
 fibonacci:
 	cmp r0, #1
-	ble .L1
+	it le
+	bxle lr
 
 	push { r4, r5, lr }
 	sub r0, r0, #1
-    mov r5, r0
+	mov r5, r0
 	bl fibonacci
 	@ Save the return value of recursive call to fibonacci with R4 - 1 as parameter
-    mov r4, r0
+	mov r4, r0
 
 	sub r0, r5, #1
 	@ Save the return value of recursive call to fibonacci with R5 - 1 as parameter
@@ -27,9 +28,6 @@ fibonacci:
 
 	mov r0, #0			@ R0 = 0
 	pop { r4, r5, pc}		@ EPILOG
-
-.L1:
-	bx lr
 
 	.size fibonacci, .-fibonacci
 	.end
